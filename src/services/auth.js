@@ -13,11 +13,12 @@ export const logout = () => {
 };
 
 export const api = {
-  baseURL: "http://localhost:8080/cadastroPet",
+  baseURL: "http://localhost:8080/cadastroPet/",
   
   login: async (email, password) => {
     try {
-      const response = await fetch(`${api.baseURL}/auth/login`, {
+      //Aqui ésta sendo passodo o login
+      const response = await fetch(`${api.baseURL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +40,8 @@ export const api = {
   
   register: async (userData) => {
     try {
-      const response = await fetch(`${api.baseURL}/auth/register`, {
+    //  aqui está sendo passado o cadastro
+      const response = await fetch(`${api.baseURL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
