@@ -14,11 +14,12 @@ export const logout = () => {
 
 export const api = {
   baseURL: "http://localhost:8080/cadastroPet/",
+  baseURL2: "http://localhost:8080/auth/login",
   
   login: async (email, password) => {
     try {
       //Aqui ésta sendo passodo o login
-      const response = await fetch(`${api.baseURL}`, {
+      const response = await fetch(`${api.baseURL2}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

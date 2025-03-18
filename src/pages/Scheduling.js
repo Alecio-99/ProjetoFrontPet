@@ -8,12 +8,19 @@ const services = [
   { id: 4, name: 'Consulta Veterinária', duration: '1h', price: 'R$ 150,00' }
 ];
 
+const baias = [
+  {id: 1, name: 'Baia 1'},
+  {id: 2, name: 'Baia 2'},
+  {id: 3, name: 'Baia 3'}
+]
+
 const Scheduling = () => {
   const [selectedService, setSelectedService] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [baia, setBaia] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,7 +119,22 @@ const Scheduling = () => {
                     <option value="16:00">16:00</option>
                   </select>
                 </div>
-
+                  <div className="mb-4">
+                    <label className="form-label">Baia:</label>
+                    <select className="form-select"
+                    value={baia}
+                    onChange={(e) => setBaia(e.target.value)}
+                    required
+                    >
+                    <option value="">Selecione uma Baia</option>
+                    {baias.map(service => (
+                      <option key={service.id} value={service.id}>
+                        {service.name}
+                      </option>
+                    ))}
+                    </select>
+                    
+                  </div>
                 <button type="submit" className="btn btn-primary w-100">
                   Confirmar Agendamento
                 </button>
