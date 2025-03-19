@@ -14,6 +14,12 @@ const baias = [
   {id: 3, name: 'Baia 3'}
 ]
 
+const portAnimal = [
+  {id: 1, name: 'Pequeno'},
+  {id: 1, name: 'Medio'},
+  {id: 1, name: 'Grande'}
+]
+
 const Scheduling = () => {
   const [selectedService, setSelectedService] = useState('');
   const [date, setDate] = useState('');
@@ -21,6 +27,7 @@ const Scheduling = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [baia, setBaia] = useState('');
+  const [port, setPort] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -133,7 +140,22 @@ const Scheduling = () => {
                       </option>
                     ))}
                     </select>
-                    
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="form-label">Porte do Animal</label>
+                    <select className="form-select"
+                    value={port}
+                    onChange={(e) => setPort(e.target.value)}
+                    >
+                     <option value="">Selecione o porte do animal</option>
+                     {portAnimal.map(service => (
+                      <option key={service.id} value={service.id}>
+                      {service.name}
+                      </option>
+                     ))}
+                    </select>
+
                   </div>
                 <button type="submit" className="btn btn-primary w-100">
                   Confirmar Agendamento
