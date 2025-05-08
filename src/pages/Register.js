@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../services/auth';
+import { ROUTES } from '../config/routes';
+import { useAuth } from '../contexts/AuthContext';
 
 const Register = () => {
+  const navigate = useNavigate();
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    phone: ''
+    confirmPassword: ''
   });
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -23,28 +25,47 @@ const Register = () => {
     e.preventDefault();
     setError('');
 
+    if (formData.password !== formData.confirmPassword) {
+      setError('As senhas não coincidem');
+      return;
+    }
+
     try {
-      await api.register(formData);
-      navigate('/login');
+      const result = await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password
+      });
+
+      if (result.success) {
+        navigate(ROUTES.PLANS);
+      } else {
+        setError(result.error || 'Erro ao registrar');
+      }
     } catch (err) {
-      setError('Erro ao realizar cadastro. Tente novamente.');
+      setError('Erro ao registrar. Tente novamente.');
     }
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-md-6">
-          <div className="card">
+          <div className="card shadow">
             <div className="card-body">
               <h2 className="text-center mb-4">Cadastro</h2>
-              {error && <div className="alert alert-danger">{error}</div>}
+              {error && (
+                <div className="alert alert-danger" role="alert">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label className="form-label">Nome:</label>
+                  <label htmlFor="name" className="form-label">Nome</label>
                   <input
                     type="text"
                     className="form-control"
+                    id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -52,10 +73,11 @@ const Register = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Email:</label>
+                  <label htmlFor="email" className="form-label">Email</label>
                   <input
                     type="email"
                     className="form-control"
+                    id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -63,10 +85,11 @@ const Register = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Senha:</label>
+                  <label htmlFor="password" className="form-label">Senha</label>
                   <input
                     type="password"
                     className="form-control"
+                    id="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
@@ -74,12 +97,13 @@ const Register = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Telefone:</label>
+                  <label htmlFor="confirmPassword" className="form-label">Confirmar Senha</label>
                   <input
-                    type="tel"
+                    type="password"
                     className="form-control"
-                    name="phone"
-                    value={formData.phone}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
                     onChange={handleChange}
                     required
                   />
@@ -88,12 +112,6 @@ const Register = () => {
                   Cadastrar
                 </button>
               </form>
-              <div className="mt-3 text-center">
-                <p>
-                  Já tem uma conta?{' '}
-                  <a href="/login">Faça login</a>
-                </p>
-              </div>
             </div>
           </div>
         </div>

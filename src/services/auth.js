@@ -13,7 +13,7 @@ export const logout = () => {
 };
 
 export const api = {
-  baseURL: "http://localhost:8080/cadastroPet/",
+  baseURL: "http://localhost:8080/cadastroPet/register",
   baseURL2: "http://localhost:8080/auth/login",
   
   login: async (email, password) => {

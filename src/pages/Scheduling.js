@@ -16,8 +16,8 @@ const baias = [
 
 const portAnimal = [
   {id: 1, name: 'Pequeno'},
-  {id: 1, name: 'Medio'},
-  {id: 1, name: 'Grande'}
+  {id: 2, name: 'Medio'},
+  {id: 3, name: 'Grande'}
 ]
 
 const Scheduling = () => {
@@ -28,14 +28,16 @@ const Scheduling = () => {
   const [error, setError] = useState('');
   const [baia, setBaia] = useState('');
   const [port, setPort] = useState('');
+  const [raca, setRaca] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess(false);
-
+  
+    
     try {
-      const response = await fetch('http://localhost:8080/api/scheduling', {
+      const response = await fetch('http://localhost:8080/atualizaStatus/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,7 +135,7 @@ const Scheduling = () => {
                     onChange={(e) => setBaia(e.target.value)}
                     required
                     >
-                    <option value="">Selecione uma Baia</option>
+                    <option value="">Selecione uma Baia:</option>
                     {baias.map(service => (
                       <option key={service.id} value={service.id}>
                         {service.name}
@@ -143,20 +145,31 @@ const Scheduling = () => {
                   </div>
 
                   <div className="mb-4">
-                    <label className="form-label">Porte do Animal</label>
+                    <label className="form-label">Porte do Pet</label>
                     <select className="form-select"
                     value={port}
                     onChange={(e) => setPort(e.target.value)}
                     >
-                     <option value="">Selecione o porte do animal</option>
+                     <option value="">Selecione o porte do pet:</option>
                      {portAnimal.map(service => (
                       <option key={service.id} value={service.id}>
                       {service.name}
                       </option>
                      ))}
                     </select>
-
                   </div>
+                  
+                  <div className="mb-4">
+                    <label className="form-label">Raça do Pet:</label>
+                   <input type="text"
+                   className="form-control"
+                   value={raca}
+                   onChange={(e) => setRaca(e.target.value)}
+                   placeholder="Digite a raça do pet" 
+                   required
+                   />
+                  </div>
+
                 <button type="submit" className="btn btn-primary w-100">
                   Confirmar Agendamento
                 </button>
